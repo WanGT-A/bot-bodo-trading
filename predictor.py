@@ -11,21 +11,21 @@ from sklearn.preprocessing import StandardScaler
 def fetch_gold_data():
     url = "https://www.alphavantage.co/query"
     params = {
-        "function": "TIME_SERIES_INTRADAY",
-        "symbol": "XAUUSD",
-        "interval": "5min",
-        "apikey": os.getenv("ALPHA_VANTAGE_KEY"),
+        "function": "FX_DAILY",
+        "from_symbol": "XAU",
+        "to_symbol": "USD",
+        "apikey": "0SWNGPCBNSXFYIRU",
         "outputsize": "compact"
     }
     response = requests.get(url, params=params)
     data = response.json()
 
-    if "Time Series (5min)" not in data:
+    if "Time Series FX (Daily)" not in data:
         print("Error fetching data:", data)
         return None
 
-    df = pd.DataFrame.from_dict(data["Time Series (5min)"], orient="index", dtype=float)
-    df.columns = ["open", "high", "low", "close", "volume"]
+    df = pd.DataFrame.from_dict(data["Time Series FX (Daily)"], orient="index", dtype=float)
+    df.columns = ["open", "high", "low", "close"]
     df.index = pd.to_datetime(df.index)
     df = df.sort_index()
     return df
