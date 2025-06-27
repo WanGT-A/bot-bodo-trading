@@ -1,10 +1,5 @@
-from flask import Flask
-import time
 import requests
-import os
 from predictor import fetch_gold_data, add_indicators, train_model, make_prediction
-
-app = Flask(__name__)
 
 # Your credentials
 BOT_TOKEN = "8128557967:AAHYbQbzxUnmsp9wTgylMJ7BqF4tuNdfhsM"
@@ -48,9 +43,5 @@ def check_gold():
     except Exception as e:
         print(f"❌ Error during prediction: {e}")
 
-@app.route('/')
-def index():
-    return "✅ Gold Trading Bot is Running."
-
 if __name__ == '__main__':
-    check_gold()  # Only run once when called by GitHub Action
+    check_gold()
